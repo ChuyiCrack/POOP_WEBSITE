@@ -39,5 +39,9 @@ def register(request):
     }
     return render(request,'register.html',context)
 
+def logout_user(request):
+    logout(request)
+    return redirect('index')
+
 def home(request):
     return render(request,'home.html')
