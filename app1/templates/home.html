@@ -4,9 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
+    <style>
+        body{
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
     {% include 'navbar.html' %}
-    <h1>Hi {{request.user}}</h1>
+    <div>
+        <h1>Hi {{request.user}}</h1>
+        <p>Poops Count: {{count}} shits</p>
+        <form method="post">
+            {% csrf_token %}
+            {% if can %}
+                <button type="submit">I maked a shit</button>
+            {% else %}
+                <p>You need to wait</p>
+            {% endif %}
+        </form>
+    </div>
 </body>
 </html>

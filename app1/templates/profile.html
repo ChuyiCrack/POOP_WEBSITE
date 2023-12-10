@@ -73,7 +73,7 @@
             {% else %}
                 <p>Non Description</p>
             {% endif %}
-            <p>Poops count: {{account.poops|length}}</p>
+            <p>Poops count: {{account.total_poops|length}}</p>
             {% if account.owner == request.user %}
                 <a href="{% url 'modify' %}">Modify Account</a>
             {% endif %}
