@@ -14,6 +14,7 @@
             margin: auto;
             border: 3px solid #000;
             width: 500px;
+            border-radius: 20px;
         }
 
         .profile_box .content{
@@ -34,27 +35,28 @@
             font-size: 10px;
         }
 
-        .image{
+        #profile_image{
             width: 200px;
             height: 200px;
             margin: 20px;
-            background-color: #64f;
+            background-color: red;
         }
 
-        .image img{
+        #profile_image img{
             width: 100%;
             height: 100%;
         }
     </style>
 </head>
 <body>
+    {% include 'navbar.html' %}
     {% if account.owner == request.user %}
         <h1>My Account</h1>
     {% else %}
         <h1>Account of {{account.owner.username}}</h1>
     {% endif %}
     <div class="profile_box">
-        <div class="image">
+        <div id="profile_image">
             <img src="{{account.profile_img.url}}" alt="">
         </div>
         <div class="content">

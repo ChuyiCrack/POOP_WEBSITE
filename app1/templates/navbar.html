@@ -1,9 +1,21 @@
 <style>
+    body{
+        margin: 0;
+        font-family:Helvetica;
+    }
+    nav{
+        display: flex;
+        justify-content: space-between;
+        padding: 10px;
+        background-color: #2873F0;
+        border-bottom: 4px solid #000;
+        margin: 0;
+    }
     .dropdown .image{
         display: inline-block;
         
-        width: 35px;
-        height: 35px;
+        width: 40px;
+        height: 40px;
         cursor: pointer;
     }
     .image img{
@@ -15,6 +27,8 @@
     }
     .dropdown{
         display: inline-block;
+        margin-right: 50px;
+        margin-top: 5px;
     }
     .dropdown a{
         display: block;
@@ -27,13 +41,6 @@
         position: absolute;
         background-color: #D6D6D6;
         box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.879);
-    }
-    
-    .dropdown a:hover{
-        display: block;
-        padding: 10px 15px;
-        text-decoration: none;
-        
     }
 
     .dropdown:hover .content{
@@ -48,10 +55,54 @@
         background-color: #a4a4a4;
     }
 
+    .logo{
+        width: 45px;
+        height: 45px;
+    }
+
+    .logo img{
+        width: 100%;
+        margin-top: 5px;
+        
+    }
+
+    .leader img{
+        width: 50px;
+        height: 50px;
+    }
+
+    .leader{
+        display: flex;
+    }
+
+    .leader p{
+        margin-left: 5px;
+    }
+
+    .link_leader{
+        text-decoration: none;
+        color: #000;
+    }
+
+    .link_leader:hover, .logo:hover{
+        opacity: .8;
+    }
+
 
 </style>
 
 <nav>
+    <div class="logo">
+        <a href="{% url 'home' %}">
+            <img src="https://pngimg.com/uploads/poop/poop_PNG46.png" alt="">
+        </a>
+    </div>
+    <a class="link_leader" href="">
+        <div class="leader">
+            <img src="https://cdn.discordapp.com/attachments/948027577493225492/1183299004981858325/gold-trophy-logo-vector_602123718d420.png?ex=6587d413&is=65755f13&hm=781365ab11d84d1b6c226f80cd300ac52660cb17172e61e8970b5ae4362f27b8&" alt="">
+            <p>Leaderboard</p>
+        </div>
+    </a>
     <div class="dropdown">
         <div class="image">
             <img src="{{account.profile_img.url}}" alt="">
