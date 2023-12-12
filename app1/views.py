@@ -101,7 +101,7 @@ def modify_aacount(request):
         form=Modify_Account_Form(request.POST,request.FILES, instance=Account)
         if form.is_valid():
             form.save()
-            return redirect('profile')
+            return redirect('profile',Account.id)
 
     else:
         form=Modify_Account_Form(instance=Account)
@@ -116,7 +116,6 @@ def modify_aacount(request):
 def ranking(request):
     Account=poop_account.objects.get(owner=request.user)
     all_users=poop_account.objects.filter(poops_count__gt=0).order_by('-poops_count')
-    print(all_users)
     if len(all_users)>=3:
         first=all_users[0]
         second=all_users[1]

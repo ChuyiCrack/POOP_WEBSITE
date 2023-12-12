@@ -4,14 +4,61 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <style>
+        body{
+            text-align: center;
+            font-family:Helvetica;
+            color: #fff;
+            background-color: #101820;
+        }
+        .form_div{
+            margin: auto;
+            background-color: #FEE715;
+            padding: 55px 40px;
+            width: fit-content;
+            border-radius: 15px;
+            box-shadow: 2px 2px 5px #94949465;
+        }
+
+        form{
+            display: flex;
+            flex-direction: column;
+        }
+
+        label{
+            color: #000;
+            font-weight: 900;
+        }
+
+        form button{
+            padding: 5px 10px;
+            width: fit-content;
+            margin: auto;
+            font-family:Helvetica;
+        }
+
+        form a{
+            text-decoration: none;
+            border: 1px solid #000;
+            margin: auto;
+            width: fit-content;
+            margin-top: 15px;
+            padding: 5px 10px;
+            border-radius: 10px;
+            background-color: #000;
+            color: #fff;
+        }
+    </style>
 </head>
 <body>
     <h1>Login</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit">
-        <a href="{% url 'register' %}">Create Account</a>
-    </form>
+    <div class="form_div">
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Login</button>
+            <a href="{% url 'register' %}">Create Account</a>
+        </form>
+    </div>
 </body>
 </html>
