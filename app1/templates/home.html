@@ -7,22 +7,47 @@
     <style>
         body{
             text-align: center;
+            
+            
         }
+        .button{
+            background-color: #4BE569;
+            padding: 7px 10px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 20px 10px;
+            font-size: 14px;
+            color: #2e2e2e;
+            font-weight: 600;
+            border: 1px solid #ffffff;
+        }
+        .off_button{
+            display: inline-block;
+            background-color: #47c961a9;
+        }
+
+        .box_home{
+            display: flex;
+            flex-direction: column;       
+            
+        }
+
     </style>
 </head>
 <body>
     {% include 'navbar.html' %}
-    <div>
+    <div class="box_home">
         <h1>Hi {{request.user}}</h1>
         <p>Poops Count: {{count}} shits</p>
         <form method="post">
             {% csrf_token %}
             {% if can %}
-                <button type="submit">I maked a shit</button>
+                <button class="button" type="submit">I maked a shit</button>
             {% else %}
-                <p>You need to wait</p>
+                <p class="button off_button">You need to wait</p>
             {% endif %}
         </form>
-    </div>
+    </div>    
 </body>
 </html>

@@ -86,8 +86,8 @@ def home(request):
     }
     return render(request,'home.html',context)
 
-def profile(request):
-    Account=poop_account.objects.get(owner=request.user)
+def profile(request,pk):
+    Account=poop_account.objects.get(id=pk)
     count=Count_Poops(Account)
     context={
         'account':Account,
@@ -107,7 +107,44 @@ def modify_aacount(request):
         form=Modify_Account_Form(instance=Account)
 
     context={
-        'form':form
+        'form':form,
+        'account':Account,
     }
 
     return render(request,'modify_account.html',context)
+
+def ranking(request):
+    Account=poop_account.objects.get(owner=request.user)
+    all_users=poop_account.objects.filter(poops_count__gt=0).order_by('-poops_count')
+    print(all_users)
+    if len(all_users)>=3:
+        first=all_users[0]
+        second=all_users[1]
+        third=all_users[2]
+
+    elif len(all_users)==2:
+        first=all_users[0]
+        second=all_users[1]
+        third=None
+
+    elif len(all_users)==1:
+        first=all_users[0]
+        second=None
+        third=None
+
+    else:
+        first=None
+        second=None
+        third=None
+    
+
+    
+    context={
+        'account':Account,
+        'top_users':all_users,
+        'first':first,
+        'second':second,
+        'third':third
+        
+    }
+    return render(request,'ranking.html',context)

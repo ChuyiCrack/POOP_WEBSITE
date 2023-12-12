@@ -100,7 +100,7 @@
             <img src="https://pngimg.com/uploads/poop/poop_PNG46.png" alt="">
         </a>
     </div>
-    <a class="link_leader" href="">
+    <a class="link_leader" href="{% url 'ranking' %}">
         <div class="leader">
             <img src="https://cdn.discordapp.com/attachments/948027577493225492/1183299004981858325/gold-trophy-logo-vector_602123718d420.png?ex=6587d413&is=65755f13&hm=781365ab11d84d1b6c226f80cd300ac52660cb17172e61e8970b5ae4362f27b8&" alt="">
             <p>Leaderboard</p>
@@ -111,7 +111,7 @@
             <img src="{{account.profile_img.url}}" alt="">
         </div>
         <div class="content">
-            <a href="{% url 'profile' %}">Profile</a>
+            <a href="{% url 'profile' account.id %}">Profile</a>
             <a href="{% url 'logout' %}">Log-Out</a>
         </div>
             

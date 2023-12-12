@@ -1,8 +1,19 @@
 {% include 'navbar.html' %}
 <h1>Modify Account</h1>
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Update</button>
-
-</form>
+<style>
+    body{
+        text-align: center;
+    }
+    .form_div{
+        text-align: justify;
+        margin: auto;
+        width: fit-content;
+    }
+</style>
+<div class="form_div">
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Update</button>
+    </form>
+</div>
