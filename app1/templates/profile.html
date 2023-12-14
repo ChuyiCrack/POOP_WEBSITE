@@ -57,24 +57,24 @@
 </head>
 <body>
     {% include 'navbar.html' %}
-    {% if account.owner == request.user %}
+    {% if profile.owner == request.user %}
         <h1>My Account</h1>
     {% else %}
-        <h1>Account of {{account.owner.username}}</h1>
+        <h1>Account of {{profile.owner.username}}</h1>
     {% endif %}
     <div class="profile_box">
         <div id="profile_image">
-            <img src="{{account.profile_img.url}}" alt="">
+            <img src="{{profile.profile_img.url}}" alt="">
         </div>
         <div class="content">
-            <p>{{account.owner.username}}</p>
-            {% if account.description %}
-                <p>{{account.description}}</p>
+            <p>{{profile.owner.username}}</p>
+            {% if profile.description %}
+                <p>{{profile.description}}</p>
             {% else %}
                 <p>Non Description</p>
             {% endif %}
-            <p>Poops count: {{account.total_poops|length}}</p>
-            {% if account.owner == request.user %}
+            <p>Poops count: {{profile.total_poops|length}}</p>
+            {% if profile.owner == request.user %}
                 <a href="{% url 'modify' %}">Modify Account</a>
             {% endif %}
         </div>

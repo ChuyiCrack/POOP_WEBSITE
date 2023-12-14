@@ -4,6 +4,8 @@ from django.contrib.auth.forms import AuthenticationForm
 from .forms import CustomUserCreationForm,Modify_Account_Form
 from .models import poop_account,poops
 from django.utils import timezone
+from django.contrib.auth.decorators import login_required
+
 
 def Count_Poops(user):
     all_poops=poops.objects.all()
@@ -56,7 +58,11 @@ def logout_user(request):
     logout(request)
     return redirect('index')
 
+
 def home(request):
+    user=request.user
+    if not user.is_authenticated:
+        return redirect('index')
     Account = get_object_or_404(poop_account, owner=request.user)
     time_now=timezone.now()
     All_Poops= poops.objects.filter(owner_shit=Account.owner).order_by('-date')
@@ -77,7 +83,7 @@ def home(request):
         Account.poops_count+=1
         Account.save()
         return redirect('home')
-
+    
     total_poops=Count_Poops(Account)
     context={
         'account':Account,
@@ -87,11 +93,13 @@ def home(request):
     return render(request,'home.html',context)
 
 def profile(request,pk):
-    Account=poop_account.objects.get(id=pk)
+    Account=poop_account.objects.get(owner=request.user)
+    profile_ac=poop_account.objects.get(id=pk)
     count=Count_Poops(Account)
     context={
         'account':Account,
-        'count':count
+        'count':count,
+        'profile':profile_ac
     }
     return render(request,'profile.html',context)
 

@@ -83,9 +83,15 @@
             
         }
 
+        b{
+            color: #551d1d;
+        }
+
         .all_tops a:hover{
             color: #7f7f7fbc;
         }
+
+        
     </style>
 </head>
 <body>
@@ -129,9 +135,9 @@
         {% for user in top_users %}
             <a href="{% url 'profile' user.id %}">
                 {% if 1 >= forloop.counter %}
-                <h3>{{forloop.counter}}.- {{user.owner}} {{user.id}}</h3>
+                <h3>{{forloop.counter}}.- {{user.owner}} <b>{{user.poops_count}}</b></h3>
                 {% else %}
-                    <p>{{forloop.counter}}.- {{user.owner}} {{user.id}}</p>
+                    <p>{{forloop.counter}}.- {{user.owner}} <b>{{user.poops_count}}</b></p>
                 {% endif %}
             </a>
         {% endfor %}
