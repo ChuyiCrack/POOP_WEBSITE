@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'add_friends.css' %}">
+    <title>Add friends</title>
+</head>
+<body>
+    {% include 'navbar.html' %}
+    <div class="main_container">
+        <form method="post">
+            {% csrf_token %}
+            <input id="input_search" placeholder="Write the name of the user here" type="text" name="user_input">
+            <button type="submit" name="search"> Search</button>
+        </form>
+        {% if not searched %}
+            <div class="not_searched">
+                <p>Try to search some friends</p>
+                <img src="../../media/used_media/poop.gif" alt="">
+            </div>
+        {% else %}
+        <div class="result">
+            {% if found_accounts.count > 0 %}
+                {% for found in found_accounts %}
+                        <div method="post" class="box_found">
+                            <a href="{% url 'profile' found.id %}">
+                                <img src="{{found.profile_img.url}}" alt="">
+                                <p>{{found}}</p>
+                            </a>
+                        </div>
+                {% endfor %}
+
+            {% else %}
+            <div class="not_searched">
+                <p>Not user has been found</p>
+                <img src="../../media/used_media/poop.gif" alt="">
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

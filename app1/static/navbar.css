@@ -1,0 +1,147 @@
+body{
+    margin: 0;
+    font-family:Helvetica;
+    background-color: #101820;
+    color: #fff;
+}
+nav{
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: #FEE715;
+    border-bottom: 4px solid #000;
+    margin: 0;
+}
+.dropdown .image{
+    display: inline-block;
+    
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+}
+.image img{
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    
+    
+}
+.dropdown{
+    display: inline-block;
+    margin-right: 50px;
+    margin-top: 5px;
+}
+.dropdown a{
+    display: block;
+    padding: 10px 15px;
+    text-decoration: none;
+}
+
+.dropdown .content{
+    display: none;
+    position: absolute;
+    background-color: #D6D6D6;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.879);
+}
+
+.dropdown:hover .content{
+    display: block;
+}
+
+.dropdown:hover img{
+    opacity: .85;
+}
+
+.dropdown a:hover{
+    background-color: #a4a4a4;
+}
+
+.logo{
+    width: 45px;
+    height: 45px;
+}
+
+.logo img{
+    width: 100%;
+    margin-top: 5px;
+    
+}
+
+.leader img{
+    width: 50px;
+    height: 50px;
+}
+
+.leader{
+    display: flex;
+}
+
+.leader p{
+    margin-left: 5px;
+    font-weight: 600;
+}
+
+.link_leader{
+    text-decoration: none;
+    color: #000;
+    margin-left: 75px;
+}
+
+.link_leader:hover, .logo:hover{
+    opacity: .8;
+}
+
+.corner_top_right{
+    align-items: center;
+    justify-content: space-between;
+    display: flex;
+    flex-direction: row;
+    width: 150px;
+    
+}
+
+.notifications img{
+    margin-top: 5px;
+    width: 30px;
+    
+}
+
+@media only screen and (max-width: 430px) {
+    .logo{
+        width: 40px;
+        height: 40px;
+    }
+    .link_leader{
+        margin: 0;
+    }
+
+    .notifications img{
+        display: none;
+        
+    }
+    .corner_top_right{
+        width: fit-content;
+    }
+    nav{
+        align-items: center;
+    }
+
+    .leader img{
+        width: 40px;
+        height: 40px;
+    }
+
+    .leader{
+        align-items: center;
+    }
+
+    .image img{
+        width: 90%;
+        height: 90%;
+    }
+
+    .dropdown .content{
+        font-size: 14px;
+    }
+
+}

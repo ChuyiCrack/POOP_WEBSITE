@@ -2,9 +2,9 @@ from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth import login,logout
 from django.contrib.auth.forms import AuthenticationForm
 from .forms import CustomUserCreationForm,Modify_Account_Form
-from .models import poop_account,poops
+from .models import poop_account,poops,friend_request
 from django.utils import timezone
-from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 
 
 def Count_Poops(user):
@@ -64,32 +64,18 @@ def home(request):
     if not user.is_authenticated:
         return redirect('index')
     Account = get_object_or_404(poop_account, owner=request.user)
-    time_now=timezone.now()
-    All_Poops= poops.objects.filter(owner_shit=Account.owner).order_by('-date')
-    if len(All_Poops)>0:
-        last_poop=All_Poops[0].date
-        diference=time_now-last_poop
-        if diference.total_seconds() > 7200:
-            can=True
-
-        else:
-            can=False
-
-    else:
-        can=True
-            
-    if request.method=='POST':
-        user_poop=poops.objects.create(owner_shit=Account.owner)
-        Account.poops_count+=1
-        Account.save()
-        return redirect('home')
     
-    total_poops=Count_Poops(Account)
-    context={
+    friends = Account.friends.all()
+    
+    if 'search' in request.POST:
+        search = request.POST['user_input']
+        friends = Account.friends.filter(owner__username__contains=search)
+
+    context= {
         'account':Account,
-        'count':total_poops,
-        'can':can
+        'friends':friends,
     }
+    
     return render(request,'home.html',context)
 
 def profile(request,pk):
@@ -155,3 +141,23 @@ def ranking(request):
         
     }
     return render(request,'ranking.html',context)
+
+
+def adding_friends(request):
+    Account = get_object_or_404(poop_account, owner=request.user)
+    context = {
+        'account':Account,
+        'searched':False
+    }
+    
+    if "search" in request.POST:
+        user_search = request.POST['user_input']
+        found_accounts = poop_account.objects.filter(
+            Q(owner__username__contains=user_search) & ~Q(owner = request.user) & ~Q(owner__in = [friend.owner for friend in Account.friends.all()])
+                                                     )
+        context['found_accounts'] = found_accounts
+        if found_accounts.exists():
+            context['searched'] = True
+
+    
+    return render(request,"add_friends.html",context)

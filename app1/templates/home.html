@@ -4,50 +4,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
-    <style>
-        body{
-            text-align: center;
-            
-            
-        }
-        .button{
-            background-color: #4BE569;
-            padding: 7px 10px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            margin: 20px 10px;
-            font-size: 14px;
-            color: #2e2e2e;
-            font-weight: 600;
-            border: 1px solid #ffffff;
-        }
-        .off_button{
-            display: inline-block;
-            background-color: #47c961a9;
-        }
-
-        .box_home{
-            display: flex;
-            flex-direction: column;       
-            
-        }
-
-    </style>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'home.css' %}">
 </head>
 <body>
     {% include 'navbar.html' %}
-    <div class="box_home">
-        <h1>Hi {{request.user}}</h1>
-        <p>Poops Count: {{count}} shits</p>
-        <form method="post">
-            {% csrf_token %}
-            {% if can %}
-                <button class="button" type="submit">I maked a shit</button>
-            {% else %}
-                <p class="button off_button">You need to wait</p>
-            {% endif %}
-        </form>
-    </div>    
+    <div class="insane-container">
+        <div class="right-box">
+            <div class="Friends-Box">
+                <p id="friend-tytle">{{account.friends.count}} Friends</p>
+                {% if 0 >= account.friends.count %}
+                    <div class="no-friends">
+                        <p>Try to add some friends</p>
+                        <a href="{% url 'add_friends' %}">
+                            <div class="max_square">
+                                <div class="cross">
+                                    <div class="square square_1"></div>
+                                    <div class="square_2"></div>
+                                    <div class="square square_3"></div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                {% else %}
+                    <div class="show-friends">
+                        <form method="post" class="search_container">
+                            {% csrf_token %}
+                            <input placeholder="Search in my friends" class="search-friend" type="text" name="user_input">
+                            <button name="search" type="submit">Search</button>
+                        </form>
+                        {% for friend in friends %}
+                            <a class="url-friend" href="{% url 'profile' friend.id %}">
+                                <div class="friend-container">
+                                    <img class="image-friend" src="{{friend.profile_img.url}}" alt="">
+                                    <p>{{friend}}</p>
+                                </div>
+                            </a>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            {% if account.friends.count  > 0 %} <a href="{% url 'add_friends' %}" id="more_friends">Add more friends</a> {% endif %}
+        </div>
+    </div>
 </body>
 </html>
