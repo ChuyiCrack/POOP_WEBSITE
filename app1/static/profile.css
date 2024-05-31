@@ -1,0 +1,44 @@
+.profile_section img{
+    width: 200px;
+    margin: 10px;
+}
+.profile_section{
+}
+
+.top_chart{
+    display: flex;
+    flex-direction: row;
+    background-color: #66666694;
+    border-bottom: 1px solid #bebdbd;
+    justify-content: space-between;
+}
+
+.a_settings{
+    text-decoration: none;
+}
+.settings_box{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.settings_box img{
+    width: 15px;
+    height: 15px;
+    margin:0 3px 0 0;
+}
+.settings{
+    margin: 0;
+    margin-right: 10px;
+    color: #2a9cd1;
+    
+}
+
+#username{
+    margin: 0;
+    margin-left: 10px;
+}
+
+.principal_container{
+    width: 95%;
+    border: 1px solid #bebdbd;;
+}

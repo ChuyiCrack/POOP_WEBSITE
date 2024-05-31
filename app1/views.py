@@ -7,16 +7,6 @@ from django.utils import timezone
 from django.db.models import Q
 
 
-def Count_Poops(user):
-    all_poops=poops.objects.all()
-    count=0
-    for x in all_poops:
-        if x.owner_shit==user.owner:
-            count+=1
-    return count
-
-
-
 def index(request):
     user=request.user
     if request.method == 'POST':
@@ -81,10 +71,8 @@ def home(request):
 def profile(request,pk):
     Account=poop_account.objects.get(owner=request.user)
     profile_ac=poop_account.objects.get(id=pk)
-    count=Count_Poops(Account)
     context={
         'account':Account,
-        'count':count,
         'profile':profile_ac
     }
     return render(request,'profile.html',context)

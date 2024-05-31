@@ -3,6 +3,7 @@
     flex-direction: column;
     align-items: center;
     height: 91vh;
+    width: 95%;
 }
 
 form{
@@ -23,10 +24,15 @@ form button{
 
 .result{
     display: flex;
-    justify-content: space-between;
-    flex-flow: row wrap;
+    flex-direction: column;
     width: 50%;
     height: 91vh;
+}
+
+.All_Found{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
 }
 
 .not_searched{

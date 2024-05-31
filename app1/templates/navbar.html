@@ -1,32 +1,40 @@
 
+
+
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'navbar.css' %}">
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'navbar.css' %}">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-<nav>
-    <div class="logo">
-        <a href="{% url 'home' %}">
-            <img src="https://pngimg.com/uploads/poop/poop_PNG46.png" alt="">
-        </a>
-    </div>
-    <a class="link_leader" href="{% url 'ranking' %}">
-        <div class="leader">
-            <img src="../../media/used_media/Trophy.png" alt="">
-            <p>Leaderboard</p>
+<body>
+    <nav>
+        <div class="logo">
+            <a href="{% url 'home' %}">
+                <img src="https://pngimg.com/uploads/poop/poop_PNG46.png" alt="">
+            </a>
         </div>
-    </a>
-    <div class="corner_top_right">
-        <div class="notifications">
-            <img src="../../media/used_media/bell.png" alt="">
-        </div>
-        <div class="dropdown">
-            <div class="image">
-                <img src="{{account.profile_img.url}}" alt="">
+        <a class="link_leader" href="{% url 'ranking' %}">
+            <div class="leader">
+                <img src="../../media/used_media/Trophy.png" alt="">
+                <p>Leaderboard</p>
             </div>
-            <div class="content">
-                <a href="{% url 'profile' account.id %}">Profile</a>
-                <a href="{% url 'logout' %}">Log-Out</a>
-            </div> 
+        </a>
+        <div class="corner_top_right">
+            <div class="notifications">
+                <img src="../../media/used_media/bell.png" alt="">
+            </div>
+            <div class="dropdown">
+                <div class="image">
+                    <img src="{{account.profile_img.url}}" alt="">
+                </div>
+                <div class="content">
+                    <a href="{% url 'profile' account.id %}">Profile</a>
+                    <a href="{% url 'logout' %}">Log-Out</a>
+                </div> 
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>
+</body>
+</html>

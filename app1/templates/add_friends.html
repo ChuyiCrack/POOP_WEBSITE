@@ -23,14 +23,17 @@
         {% else %}
         <div class="result">
             {% if found_accounts.count > 0 %}
-                {% for found in found_accounts %}
-                        <div method="post" class="box_found">
+                <p>{{found_accounts.count}}{% if found_accounts.count > 1 %}Results{% else %} Result {% endif %} Founded </p>
+                <div class="All_Found">
+                    {% for found in found_accounts %}
+                        <div class="box_found">
                             <a href="{% url 'profile' found.id %}">
                                 <img src="{{found.profile_img.url}}" alt="">
                                 <p>{{found}}</p>
                             </a>
                         </div>
-                {% endfor %}
+                    {% endfor %}
+                </div>
 
             {% else %}
             <div class="not_searched">
