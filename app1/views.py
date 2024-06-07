@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth import login,logout
 from django.contrib.auth.forms import AuthenticationForm
 from .forms import CustomUserCreationForm,Modify_Account_Form
-from .models import poop_account,poops,friend_request
+from .models import poop_account,poops,friend_request,profile_comment
 from django.utils import timezone
 from django.db.models import Q
 
@@ -71,9 +71,24 @@ def home(request):
 def profile(request,pk):
     Account=poop_account.objects.get(owner=request.user)
     profile_ac=poop_account.objects.get(id=pk)
+    all_coments = profile_comment.objects.filter(recipent = profile_ac).order_by('-dtae')
+    if 'submit_comment' in request.POST:
+        if request.POST['user_comment']:
+                user_coment = request.POST['user_comment']
+                if not(len(user_coment) >= 500 ):
+                    profile_comment.objects.create(
+                        author = Account,
+                        recipent = profile_ac,
+                        message = user_coment
+                    )
+        else:
+            print("You need to write something to post a comment")
+
     context={
         'account':Account,
-        'profile':profile_ac
+        'profile':profile_ac,
+        'all_coments':all_coments
+
     }
     return render(request,'profile.html',context)
 

@@ -21,8 +21,36 @@
             </a>
             {% endif %}
         </div>
-        <div class="profile_section">
-            <img src="{{profile.profile_img.url}}" alt="">
+        <div class="sub_container">
+            <div class="profile_section">
+                <img src="{{profile.profile_img.url}}" alt="">
+                <div class="bottom_bar">
+                    <a id="coment_button">
+                        <div class="message_box">
+                            <img src="../../media/used_media/message.png" alt="">
+                        </div>
+                    </a>
+                    <div class="add">
+                        <img src="../../media/used_media/add_friend.png" alt="">
+                    </div>
+                </div>
+            </div>
+    
+            <div class="commnet">
+                <p>Comment</p>
+                <form method="post" class="input_container">
+                    {% csrf_token %}
+                    <input id="comment_input" type="text" placeholder="Add a comment" name="user_comment">
+                    <button name="submit_comment" type="submit">
+                        <img src="../../media/used_media/send.png" alt="">
+                    </button>
+                </form>
+                <div class="all_comments">
+                    {% for comment in all_coments %}
+                        <p>{{comment.message}}</p>
+                    {% endfor %}
+                </div>
+            </div>
         </div>
     </div>
 </body>
