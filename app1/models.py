@@ -55,7 +55,7 @@ class friend_request(models.Model):
 class profile_comment(models.Model):
     author = models.ForeignKey(poop_account ,on_delete=models.CASCADE , related_name='sender')
     recipent = models.ForeignKey(poop_account,on_delete=models.CASCADE , related_name='recipent_user')
-    message = models.TextField(max_length=500 , blank=False)
+    message = models.TextField(max_length=1000 , blank=False)
     dtae = models.DateTimeField(default=timezone.now)
 
     def __str__(self) -> str:

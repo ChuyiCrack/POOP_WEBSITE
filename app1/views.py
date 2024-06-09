@@ -84,6 +84,10 @@ def profile(request,pk):
         else:
             print("You need to write something to post a comment")
 
+    elif 'delete_comment' in request.POST:
+        id_comment = request.POST['delete_comment']
+        profile_comment.objects.get(id=id_comment).delete()
+
     context={
         'account':Account,
         'profile':profile_ac,
