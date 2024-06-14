@@ -25,14 +25,24 @@
             <div class="profile_section">
                 <img src="{{profile.profile_img.url}}" alt="">
                 <div class="bottom_bar">
-                    <a id="coment_button">
+                    <a href="" id="coment_button">
                         <div class="message_box">
                             <img src="../../media/used_media/message.png" alt="">
                         </div>
                     </a>
-                    <div class="add">
-                        <img src="../../media/used_media/add_friend.png" alt="">
-                    </div>
+                    {% if sent %}
+                        <div class="add added">
+                            <img src="../../media/used_media/added.png" alt="">
+                        </div>
+                    {% else %}
+                        <form class="add" method="post">
+                            {% csrf_token %}
+                            <button type="submit" name="send_friend_request" id="button_friend_request">
+                                <img src="../../media/used_media/add_friend.png" alt="">
+                            </button>
+                        </form>
+                    {% endif %}
+                    
                 </div>
             </div>
     
@@ -47,7 +57,7 @@
                         </button>
                     </form>
                     <div class="all_comments">
-                        {% for comment in all_coments %}
+                            {% for comment in all_coments %}
                             <div class="box_comment {% if forloop.counter|divisibleby:2 %} background_1 {% endif %}">
                                 <img src="{{comment.author.profile_img.url}}" alt="">
                                 <div class="comment_part">
@@ -63,9 +73,9 @@
                                     </form>
                                     {% endif %}
                                 </div>
-                                
-                            </div>
-                        {% endfor %}
+                            </div>  
+                            {% endfor %}
+                        </div>
                     </div>
                 </div>
             </div>

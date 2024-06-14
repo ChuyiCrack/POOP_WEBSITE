@@ -3,7 +3,7 @@
     height: 400px;
     display: flex;
     flex-direction: row;
-    justify-content: end;
+    justify-content: space-between;
 }
 
 
@@ -127,6 +127,11 @@
     color: black;
     font-size: 15px;
     text-decoration: none;
+}
+
+#Create_Group{
+    
+    color: #fff;
 }
 
 

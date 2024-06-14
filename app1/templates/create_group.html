@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'create_group.css' %}">
+    <title>Create Group</title>
+</head>
+<body>
+    {% include 'navbar.html' %}
+    {% if not account.joined_group %}
+        <form class="create_form" method="post">
+            {% csrf_token %}
+            <div>
+                <label for="group_name">Group Name</label>
+                <input type="text" name="group_name" id="group_name" maxlength="50">
+            </div>
+            <button id="submit_group" type="submit">Create</button>
+        </form>
+    {% else %}
+        <div style="display: flex; flex-direction: column; align-items: center;">
+            <h2 style="margin: 10px 0;">You're in a group</h2>
+            <p style="margin: 0;">Try to leave your current group to create a new one</p>
+        </div>
+    {% endif %}
+</body>
+</html>

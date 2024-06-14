@@ -10,6 +10,7 @@
 <body>
     {% include 'navbar.html' %}
     <div class="insane-container">
+        <a id="Create_Group" href="{% url 'create_group' %}">Create Gruop</a>
         <div class="right-box">
             <div class="Friends-Box">
                 <p id="friend-tytle">{{account.friends.count}} Friends</p>

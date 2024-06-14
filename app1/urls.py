@@ -9,5 +9,6 @@ urlpatterns = [
     path('profile/<int:pk>/',views.profile,name='profile'),
     path('modify/',views.modify_aacount,name='modify'),
     path('leaderboard',views.ranking, name='ranking'),
-    path('add_friiends/',views.adding_friends, name="add_friends")
+    path('add_friiends/',views.adding_friends, name="add_friends"),
+    path('create_group/',views.Create_Group , name='create_group')
 ]

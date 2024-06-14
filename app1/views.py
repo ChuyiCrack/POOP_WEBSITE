@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth import login,logout
 from django.contrib.auth.forms import AuthenticationForm
 from .forms import CustomUserCreationForm,Modify_Account_Form
-from .models import poop_account,poops,friend_request,profile_comment
+from .models import poop_account,poops,friend_request,profile_comment,group_poop
 from django.utils import timezone
 from django.db.models import Q
 
@@ -72,6 +72,7 @@ def profile(request,pk):
     Account=poop_account.objects.get(owner=request.user)
     profile_ac=poop_account.objects.get(id=pk)
     all_coments = profile_comment.objects.filter(recipent = profile_ac).order_by('-dtae')
+    has_sent_fr = True if friend_request.objects.filter(sender = Account , receiver = profile_ac).exists() else False
     if 'submit_comment' in request.POST:
         if request.POST['user_comment']:
                 user_coment = request.POST['user_comment']
@@ -88,10 +89,15 @@ def profile(request,pk):
         id_comment = request.POST['delete_comment']
         profile_comment.objects.get(id=id_comment).delete()
 
+    elif 'send_friend_request' in request.POST:
+        friend_request.objects.create(sender = Account , receiver= profile_ac)
+        return redirect('profile',profile_ac.id)
+
     context={
         'account':Account,
         'profile':profile_ac,
-        'all_coments':all_coments
+        'all_coments':all_coments,
+        'sent':has_sent_fr
 
     }
     return render(request,'profile.html',context)
@@ -168,3 +174,23 @@ def adding_friends(request):
 
     
     return render(request,"add_friends.html",context)
+
+
+def Create_Group(request):
+    Account = get_object_or_404(poop_account, owner=request.user)
+
+    if request.POST:
+        group_name = request.POST['group_name']
+        if len(group_name) > 0:
+            instance = group_poop.objects.create(owner = Account , group_name = group_name)
+            instance.members.add(Account)
+            instance.save()
+            Account.joined_group = instance
+            Account.save()
+        else:
+            pass
+
+    context = {
+        'account':Account,
+    }
+    return render(request,"create_group.html" , context)

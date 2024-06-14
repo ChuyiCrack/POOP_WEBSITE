@@ -24,15 +24,6 @@ class poop_account(models.Model):
     def __str__(self):
         return self.owner.username
     
-
-class group_poop (models.Model):
-    owner_group = models.ForeignKey(User,on_delete=models.CASCADE)
-    name_group = models.CharField(max_length=35 , blank=False)
-    players_joined = models.PositiveIntegerField(default=1)
-
-
-    def __str__(self) -> str:
-        return self.name_group
     
 class friend_request(models.Model):
     sender = models.ForeignKey(poop_account,on_delete=models.CASCADE , related_name="sender_request")
@@ -60,3 +51,16 @@ class profile_comment(models.Model):
 
     def __str__(self) -> str:
         return f"Message from {self.author} to {self.recipent}"
+    
+class group_poop(models.Model):
+    owner = models.ForeignKey(poop_account , on_delete=models.CASCADE , blank=False , related_name="owner_group")
+    group_name = models.CharField(max_length=50 , unique=True)
+    members = models.ManyToManyField(poop_account,max_length=16 ,blank=True , related_name="members")
+
+    def num_members(self):
+        return self.members.count()
+    
+        
+    
+    def __str__(self) -> str:
+        return f"{self.group_name}({self.num_members()} members)"
