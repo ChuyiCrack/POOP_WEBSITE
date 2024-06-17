@@ -2,9 +2,11 @@ from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth import login,logout
 from django.contrib.auth.forms import AuthenticationForm
 from .forms import CustomUserCreationForm,Modify_Account_Form
-from .models import poop_account,poops,friend_request,profile_comment,group_poop
+from .models import poop_account,poops,friend_request,profile_comment,group_poop,Group_request
 from django.utils import timezone
 from django.db.models import Q
+from django.http import Http404,HttpResponse
+from .functions import remove_user_group
 
 
 def index(request):
@@ -91,6 +93,10 @@ def profile(request,pk):
 
     elif 'send_friend_request' in request.POST:
         friend_request.objects.create(sender = Account , receiver= profile_ac)
+        return redirect('profile',profile_ac.id)
+    
+    elif 'remove_fr' in request.POST:
+        friend_request.objects.filter(sender = Account , receiver = profile_ac).delete()
         return redirect('profile',profile_ac.id)
 
     context={
@@ -194,3 +200,31 @@ def Create_Group(request):
         'account':Account,
     }
     return render(request,"create_group.html" , context)
+
+def Group_Popp_View(request,pk):
+    Account = get_object_or_404(poop_account, owner=request.user)
+    print(Account.check_gr_sent)
+    try:
+        Group = get_object_or_404(group_poop,id=pk)
+
+    except Http404:
+        return HttpResponse("<style> body{text-align:center;} </style>"+f"<h2>Group with the id {pk} was not found <br> Try to search with another id</h2> <br> <a href='/'>Go back </a>")
+    
+    if 'kick_member' in request.POST:
+        pk = request.POST['kick_member']
+        target_ac = poop_account.objects.get(id = pk)
+        remove_user_group(Group,target_ac)
+        return redirect("group_poop",Group.id)
+    
+    if 'invite_member' in request.POST:
+        pk = request.POST['invite_member']
+        target_ac = poop_account.objects.get(id = pk)
+        Group_request.objects.create(sender = Account , receiver = target_ac , group = Group)
+        return redirect("group_poop",Group.id)
+
+    
+    context = {
+        'account':Account,
+        'group':Group
+    }
+    return render(request,"poop_group.html" , context)

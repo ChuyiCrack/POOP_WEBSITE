@@ -19,10 +19,11 @@
 
 .max_square{
     display: flex;
+    flex-direction: column;
     justify-content: center;
 }
 
-#friend-tytle{
+.friend-tytle{
     margin: 0;
     background-color: purple;
     border-bottom: 2px solid #fff;
@@ -86,7 +87,14 @@
 .friend-container p {
     margin: 0;
     width: fit-content;
+    width: 100%;
 
+}
+
+.no-friends{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .search-friend{
@@ -99,7 +107,6 @@
 
 .image-friend{
     width: 50px;
-    margin-right: 10px;
 }
 
 .url-friend{
@@ -135,3 +142,78 @@
 }
 
 
+/* Group Part */
+
+#crown{
+    width: 15px;
+    margin-left: 5px;
+}
+
+.top_members{
+    display: flex;
+    flex-direction: row;
+    background-color: #feb415;
+    align-items: center;
+    border-bottom: 2px solid #fff;
+    justify-content: space-between;
+}
+
+.friend-tytle_group{
+    background: none;
+    border: none;
+    margin-left: 10px;
+}
+.cross_groups{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 20px;
+    height: 20px;
+    padding: 10px;
+
+}
+
+.drop_down_menu{
+    position: absolute;
+    width: 260px;
+    height: 280px;
+    background-color: rgba(255, 166, 0, 0.322);
+    top: 120px;
+    right: 40px;
+    display: none;
+    overflow-y: scroll;
+}
+
+.max_square_group:hover .drop_down_menu{
+    display: block;
+}
+
+.namer-tag{
+    display: flex;
+}
+
+.namer-tag p{
+    max-width: 165px;
+    overflow-x: hidden;
+}
+
+.owner-group{
+    justify-content: start;
+}
+
+.owner-group  .namer-tag{
+    width: 100%;
+    justify-content: center;
+}
+.owner-group .namer-tag p{
+    width: fit-content;
+}
+
+.invite_friends{
+    background-color: rgb(255, 187, 0);
+}
+
+.group_page {
+    justify-content: space-between;
+}

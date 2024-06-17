@@ -30,10 +30,17 @@
                             <img src="../../media/used_media/message.png" alt="">
                         </div>
                     </a>
-                    {% if sent %}
-                        <div class="add added">
+                    {% if profile in account.friends.all %}
+                        <div class="add added" title="friends">
                             <img src="../../media/used_media/added.png" alt="">
                         </div>
+                    {% elif sent %}
+                        <form class="add added" method="post">
+                            {% csrf_token %}
+                            <button title="sent" name="remove_fr">
+                                <img src="../../media/used_media/sent_it.png" alt="">
+                            </button>
+                        </form>
                     {% else %}
                         <form class="add" method="post">
                             {% csrf_token %}

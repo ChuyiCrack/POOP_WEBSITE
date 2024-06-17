@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{group.group_name}}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'home.css' %}">
+</head>
+<body>
+    {% include 'navbar.html' %}
+    <div class="insane-container">
+        <h1>{{group.group_name}}</h1>
+        <div class="Friends-Box">
+            <div class="top_members">
+                <p class="friend-tytle friend-tytle_group">{{group.num_members}}/16 joined</p>
+                <div class="max_square max_square_group">
+                    <div class="cross cross_groups">
+                        <div class="square square_1"></div>
+                        <div class="square_2"></div>
+                         <div class="square square_3"></div>
+                    </div>
+                    <div class="drop_down_menu">
+                        <p style="margin: 0;">Invite Friends</p>
+                        {% for f in account.friends.all %}
+                            {% if f not in group.members.all %}
+                            <div class="friend-container invite_friends">
+                                <img class="image-friend" src="{{f.profile_img.url}}" alt="">
+                                <div class="namer-tag">
+                                    <p>{{f}}</p>
+                                </div>
+                                {% if not f in account.check_gr_sent %}
+                                    <form method="post">
+                                        {% csrf_token %}
+                                        <button type="submit" value="{{f.id}}" name="invite_member">Invite</button>
+                                    </form>
+                                {% else %}
+                                    <p>Invited</p>
+                                {% endif %}
+                            </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+                <div class="show-friends">
+                    {% for player in group.members.all %}
+                        <a class="url-friend" href="{% url 'profile' player.id %}">
+                            <div class="friend-container group_page {% if player == account %} owner-group {% endif %}">
+                                <img class="image-friend" src="{{player.profile_img.url}}" alt="">
+                                <div class="namer-tag">
+                                    <p>{{player}}</p>
+                                    {% if player == group.owner %}
+                                        <img id="crown" src="../../media/used_media/crown.png" alt="">
+                                    {% endif %}
+                                </div>
+                                {% if player != account and request.user == group.owner.owner %}
+                                    <form method="post">
+                                        {% csrf_token %}
+                                        <button type="submit" value="{{player.id}}" name="kick_member">Kick</button>
+                                    </form>
+                                {% endif %}
+                            </div>
+                        </a>
+                    {% endfor %}
+                </div>
+        </div>
+    </div>
+</body>
+</html>
