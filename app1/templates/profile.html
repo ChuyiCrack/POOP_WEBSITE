@@ -30,10 +30,18 @@
                             <img src="../../media/used_media/message.png" alt="">
                         </div>
                     </a>
-                    {% if profile in account.friends.all %}
-                        <div class="add added" title="friends">
+
+                    {% if profile == account  %}
+                        <div class="add added" title="remove friend">
                             <img src="../../media/used_media/added.png" alt="">
                         </div>
+                    {% elif profile in account.friends.all %}
+                        <form class="add added" title="remove friend" , method="post">
+                            {% csrf_token %}
+                            <button type="submit" name="remove_friend">
+                                <img src="../../media/used_media/added.png" alt="">
+                            </button>
+                        </form>
                     {% elif sent %}
                         <form class="add added" method="post">
                             {% csrf_token %}

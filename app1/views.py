@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth import login,logout
 from django.contrib.auth.forms import AuthenticationForm
 from .forms import CustomUserCreationForm,Modify_Account_Form
-from .models import poop_account,poops,friend_request,profile_comment,group_poop,Group_request
+from .models import poop_account,poops,friend_request,profile_comment,group_poop , Group_Notification
 from django.utils import timezone
 from django.db.models import Q
 from django.http import Http404,HttpResponse
@@ -72,6 +72,7 @@ def home(request):
 
 def profile(request,pk):
     Account=poop_account.objects.get(owner=request.user)
+    print(Account.check_notifications())
     profile_ac=poop_account.objects.get(id=pk)
     all_coments = profile_comment.objects.filter(recipent = profile_ac).order_by('-dtae')
     has_sent_fr = True if friend_request.objects.filter(sender = Account , receiver = profile_ac).exists() else False
@@ -90,9 +91,15 @@ def profile(request,pk):
     elif 'delete_comment' in request.POST:
         id_comment = request.POST['delete_comment']
         profile_comment.objects.get(id=id_comment).delete()
+        return redirect('profile',profile_ac.id)
+
+    elif 'remove_friend' in request.POST:
+        Account.friends.remove(profile_ac)
+        Account.save()
+        return redirect('profile',profile_ac.id)
 
     elif 'send_friend_request' in request.POST:
-        friend_request.objects.create(sender = Account , receiver= profile_ac)
+        friend_request.objects.create(type="friend_request" , sender = Account , receiver= profile_ac)
         return redirect('profile',profile_ac.id)
     
     elif 'remove_fr' in request.POST:
@@ -184,7 +191,8 @@ def adding_friends(request):
 
 def Create_Group(request):
     Account = get_object_or_404(poop_account, owner=request.user)
-
+    if Account.joined_group:
+        return redirect("home")
     if request.POST:
         group_name = request.POST['group_name']
         if len(group_name) > 0:
@@ -203,7 +211,7 @@ def Create_Group(request):
 
 def Group_Popp_View(request,pk):
     Account = get_object_or_404(poop_account, owner=request.user)
-    print(Account.check_gr_sent)
+    print(len(Account.check_gr_sent()))
     try:
         Group = get_object_or_404(group_poop,id=pk)
 
@@ -219,7 +227,7 @@ def Group_Popp_View(request,pk):
     if 'invite_member' in request.POST:
         pk = request.POST['invite_member']
         target_ac = poop_account.objects.get(id = pk)
-        Group_request.objects.create(sender = Account , receiver = target_ac , group = Group)
+        Group_Notification.objects.create(type = "group" , sender = Account , receiver = target_ac , group = Group)
         return redirect("group_poop",Group.id)
 
     

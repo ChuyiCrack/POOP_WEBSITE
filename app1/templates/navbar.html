@@ -22,9 +22,49 @@
             </div>
         </a>
         <div class="corner_top_right">
-            <div class="notifications">
-                <img src="../../media/used_media/bell.png" alt="">
-            </div>
+            <div class="dropdown1">
+                <div class="noti_content">
+                    <div class="notifications">
+                        <img src="../../media/used_media/bell.png" alt="">
+                        {% if account.check_notifications.all.count > 0 %} <p id="count_noti">{{account.check_notifications.all.count}}</p> {% endif %}
+                    </div>
+                    <div class="all_notifications">
+                        {% for n in account.check_notifications.all %}
+                            {% if n.type == "group" %}
+                                <div class="group_invite">
+                                    <img src="{{n.sender.profile_img.url}}" alt="">
+                                    <div class="group_inf">
+                                        <p>{{n.sender}}</p>
+                                        <p>{{n.group.group_name}}</p>
+                                        <p>{{n.group.num_members}}/16</p>
+                                    </div>
+                                    <form class="form_accept_group" action="{% url 'navbar' %}" method="post">
+                                        {% csrf_token %}
+                                        {% if not account.joined_group %}
+                                            <button type="submit" value="{{n.id}}" name="join_group">Join</button>
+                                        {% else %}
+                                            <p id="in_group">In Group</p>
+                                        {% endif %}
+                                        <button type="submit" value="{{n.id}}" name="deny_group">Deny</button>
+                                    </form>
+                                </div>
+                            {% elif n.type == "friend_request" %}
+                                <div class="group_invite fr_group_invite">
+                                    <img src="{{n.sender.profile_img.url}}" alt="">
+                                    <div class="group_inf">
+                                        <p id="title">Friend Request</p>
+                                        <p>{{n.sender}}</p>
+                                    </div>
+                                    <form class="form_accept_group" action="{% url 'navbar' %}" method="post">
+                                        {% csrf_token %}
+                                        <button type="submit" value="{{n.id}}" name="accept_friend">Accept</button>
+                                        <button type="submit" value="{{n.id}}" name="deny_friend">Deny</button>
+                                    </form>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
             <div class="dropdown">
                 <div class="image">
                     <img src="{{account.profile_img.url}}" alt="">

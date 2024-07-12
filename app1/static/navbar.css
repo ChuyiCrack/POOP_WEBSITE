@@ -33,7 +33,6 @@ nav{
 }
 .dropdown{
     display: inline-block;
-    margin-right: 50px;
     margin-top: 5px;
 }
 .dropdown a{
@@ -110,6 +109,103 @@ nav{
     margin-top: 5px;
     width: 30px;
     
+}
+
+
+
+.all_notifications{
+    display: none;
+    position: absolute;
+    width: 250px;
+    height: 350px;
+    top: 60px;
+    right: 100px;
+    background-color: #1e2d3b;;
+    border-radius: 15px;
+    overflow-y: scroll;
+    border: 2px solid #fff;
+}
+
+.noti_content:hover .all_notifications{
+    display: block;
+}
+
+#count_noti{
+    position: absolute;
+    color: #d1180a;
+    font-weight: 600;
+    margin: 0;
+    top: 0;
+    margin: 15px 25px;
+}
+
+.notifications:hover{
+    opacity: .70;
+    color: #d1170a91;
+}
+
+
+
+.notifications:active{
+    opacity: 1;
+}
+
+.group_invite img{
+    width: 50px;
+    height: 50px;
+}
+
+.group_invite{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10px;
+
+    border-bottom: 2px solid #000;
+}
+
+.group_inf p{
+    font-size: 14px;
+    margin: 0;
+}
+
+.dropdown1{
+    display: flex;
+    justify-content: space-between;
+    width: 100px;
+}
+
+.form_accept_group{
+    display: flex;
+    flex-direction: column;
+}
+
+.form_accept_group button{
+    font-size: 10px;
+    margin: 2px 0;
+    border-radius: 0;
+    padding: 1px 5px;
+    border: none;
+}
+
+#in_group{
+    margin: 0;
+    font-size: 12px;
+    border: 1px solid #000;
+    padding: 0 2px;
+    margin-bottom: 5px;
+    background-color: rgb(23, 133, 230);
+}
+
+#title{
+    font-size: 10px;
+    width: fit-content;
+    margin: auto;
+}
+
+.fr_group_invite{
+    padding: 10px 5px;
 }
 
 @media only screen and (max-width: 430px) {

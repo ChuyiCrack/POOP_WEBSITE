@@ -3,6 +3,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 from django.utils import timezone
+from django.db.models import Value,CharField
 
 class poops(models.Model):
     date=models.DateTimeField(default=timezone.now)
@@ -18,49 +19,21 @@ class poop_account(models.Model):
     description=models.TextField(max_length=150,blank=True)
     poops_count=models.IntegerField(default=0)
     friends = models.ManyToManyField('self',symmetrical=True,blank=True)
-    joined_group = models.ForeignKey("group_poop" ,blank=True, null=True , default=None ,on_delete=models.DO_NOTHING)
+    joined_group = models.ForeignKey("group_poop" ,blank=True, null=True , default=None ,on_delete=models.SET_NULL)
     comments = models.ManyToOneRel
 
     def check_gr_sent(self):
-        return [gr.receiver for gr in Group_request.objects.filter(sender=self).all()]
+        return [gr.receiver for gr in Group_Notification.objects.filter(sender = self).all()]
+    
+    def check_notifications(self):
+        noti_group = Group_Notification.objects.filter(receiver = self)
+        noti_friend = friend_request.objects.filter(receiver = self)
+        noti_friend = noti_friend.annotate(extra=Value(None,output_field=CharField()))
+        
+        return noti_group.union(noti_friend).order_by('-date').all()
 
     def __str__(self):
         return self.owner.username
-    
-    
-class friend_request(models.Model):
-    sender = models.ForeignKey(poop_account,on_delete=models.CASCADE , related_name="sender_request")
-    receiver = models.ForeignKey(poop_account,on_delete=models.CASCADE,related_name="receiver_request")
-    date = models.DateTimeField(default=timezone.now)
-
-    def save(self, *args, **kwargs):
-        
-        if friend_request.objects.filter(sender = self.sender , receiver = self.receiver).exists():
-            friend_request.objects.filter(sender = self.sender , receiver = self.receiver).delete()
-
-        # Call the original save method
-        if friend_request.objects.filter(sender =self.receiver, receiver = self.sender).exists():
-            friend_request.objects.filter(sender =self.receiver, receiver = self.sender).delete()
-            self.receiver.friends.add(self.sender)
-            self.receiver.save()
-            return
-        
-        super().save(*args, **kwargs)
-
-
-    def __str__(self) -> str:
-        return f"From {self.sender} to {self.receiver} at {self.date}"
-    
-
-class Group_request(models.Model):
-    sender = models.ForeignKey(poop_account,on_delete=models.CASCADE , related_name="sender_gr_request")
-    receiver = models.ForeignKey(poop_account,on_delete=models.CASCADE,related_name="receiver_gr_request")
-    group = models.ForeignKey("group_poop",on_delete=models.CASCADE,related_name="Target_Group")
-    date = models.DateTimeField(default=timezone.now)
-
-    def __str__(self) -> str:
-        return f"Invite of Group {self.group.group_name} from {self.sender} to {self.receiver}"
-    
 
 class profile_comment(models.Model):
     author = models.ForeignKey(poop_account ,on_delete=models.CASCADE , related_name='sender')
@@ -81,3 +54,36 @@ class group_poop(models.Model):
     
     def __str__(self) -> str:
         return f"{self.group_name}({self.num_members()} members)"
+    
+
+class Notification(models.Model):
+    type = models.CharField(max_length=25, blank=False, null=False)
+    sender = models.ForeignKey(poop_account,on_delete=models.CASCADE,related_name="receiver_notification")
+    receiver= models.ForeignKey(poop_account,on_delete=models.CASCADE,related_name="sender_notification")
+    date = models.DateTimeField(default=timezone.now)
+
+    def __str__(self) -> str:
+        return f"{self.type} ---> from {self.sender} to {self.receiver} {self.id}"
+
+class Group_Notification(Notification):
+    group = models.ForeignKey("group_poop",on_delete=models.CASCADE,related_name="group_notification")
+
+
+
+class friend_request(Notification):
+    def save(self, *args, **kwargs):
+        if friend_request.objects.filter(sender = self.sender , receiver = self.receiver).exists():
+            friend_request.objects.filter(sender = self.sender , receiver = self.receiver).delete()
+
+        # Call the original save method
+        if friend_request.objects.filter(sender =self.receiver, receiver = self.sender).exists():
+            friend_request.objects.filter(sender =self.receiver, receiver = self.sender).delete()
+            self.receiver.friends.add(self.sender)
+            self.receiver.save()
+            return
+        
+        super().save(*args, **kwargs)
+
+
+
+    

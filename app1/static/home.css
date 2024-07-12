@@ -191,6 +191,7 @@
 
 .namer-tag{
     display: flex;
+    width: 100%;
 }
 
 .namer-tag p{
