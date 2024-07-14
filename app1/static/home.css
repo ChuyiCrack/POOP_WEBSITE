@@ -1,6 +1,6 @@
 .insane-container{
     width: 95%;
-    height: 400px;
+    height: 800px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -14,7 +14,7 @@
     border: 2px solid #fff;
     border-radius: 5px;
     width: 250px;
-    height: 80%;
+    height: 320px;
 }
 
 .max_square{
@@ -71,7 +71,6 @@
     height: 100%;
     width: fit-content;
     align-items: center;
-    justify-content: center;
 }
 
 
@@ -217,4 +216,119 @@
 
 .group_page {
     justify-content: space-between;
+}
+
+/* Comments Group*/
+
+.Chat-Box{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 400px;
+}
+
+.chat{
+    border: 4px solid #fff;
+    width: 100%;
+    flex: 1;
+    overflow-y: scroll;
+}
+
+.type{
+    padding-top: 10px;
+    height: 40px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-left: 5px;
+}
+
+#keyboard{
+    border-radius: 10px;
+    width: 100%;
+    margin-right: 10px;
+}
+
+.Title{
+    font-size: 30px;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.box_comment{
+padding:5px 0;
+    width: 100%;
+    display: flex;
+}
+
+.box_comment img{
+    width: 55px;
+    height: 55px;
+}
+
+.comment_part{
+    margin-left: 5px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.top_comment_box{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    height: fit-content;
+    
+}
+
+#comment_date{
+    font-size: 12px;
+    margin: 5px 0 0 0;
+}
+
+#comment_username{
+    font-size: 14px;
+    color: #2a9cd1;
+    margin: 0;
+    text-decoration: none;
+}
+
+#comment{
+    margin: 0;
+    max-width: 340px;
+    font-size: 12px;
+    word-wrap: break-word;
+}
+
+.background_1{
+    background-color: #353535;
+}
+
+#remove_comment {
+    margin-left:10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    
+}
+#remove_comment button{
+    background: none;
+    width: fit-content;
+    height: fit-content;
+    border: none;
+    margin: 0;
+}
+
+#remove_comment button:hover{
+    border-bottom: 2px solid rgb(191, 26, 26);
+}
+
+#remove_comment button img{
+    width: 9px;
+    height: 9px;
+}
+
+.div-user-re{
+    display: flex;
 }

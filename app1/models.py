@@ -17,7 +17,7 @@ class poop_account(models.Model):
     owner=models.ForeignKey(User,on_delete=models.CASCADE)
     profile_img=models.ImageField(upload_to='./images',blank=True,default='./used_media/default.jpg')
     description=models.TextField(max_length=150,blank=True)
-    poops_count=models.IntegerField(default=0)
+    global_poops=models.IntegerField(default=0)
     friends = models.ManyToManyField('self',symmetrical=True,blank=True)
     joined_group = models.ForeignKey("group_poop" ,blank=True, null=True , default=None ,on_delete=models.SET_NULL)
     comments = models.ManyToOneRel
@@ -44,6 +44,12 @@ class profile_comment(models.Model):
     def __str__(self) -> str:
         return f"Message from {self.author} to {self.recipent}"
     
+class Group_Comment(models.Model):
+    author = models.ForeignKey(poop_account ,on_delete=models.CASCADE , related_name='authro_gc')
+    group = models.ForeignKey("group_poop" ,blank=True, null=True , default=None ,on_delete=models.CASCADE)
+    message = models.TextField(max_length=500 , blank=False)
+    date = models.DateTimeField(default=timezone.now)
+
 class group_poop(models.Model):
     owner = models.ForeignKey(poop_account , on_delete=models.CASCADE , blank=False , related_name="owner_group")
     group_name = models.CharField(max_length=50 , unique=True)

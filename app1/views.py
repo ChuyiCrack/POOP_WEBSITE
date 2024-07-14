@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth import login,logout
 from django.contrib.auth.forms import AuthenticationForm
 from .forms import CustomUserCreationForm,Modify_Account_Form
-from .models import poop_account,poops,friend_request,profile_comment,group_poop , Group_Notification
+from .models import poop_account,poops,friend_request,profile_comment,group_poop , Group_Notification, Group_Comment
 from django.utils import timezone
 from django.db.models import Q
 from django.http import Http404,HttpResponse
@@ -211,28 +211,43 @@ def Create_Group(request):
 
 def Group_Popp_View(request,pk):
     Account = get_object_or_404(poop_account, owner=request.user)
-    print(len(Account.check_gr_sent()))
+    
     try:
         Group = get_object_or_404(group_poop,id=pk)
 
     except Http404:
         return HttpResponse("<style> body{text-align:center;} </style>"+f"<h2>Group with the id {pk} was not found <br> Try to search with another id</h2> <br> <a href='/'>Go back </a>")
     
+    all_comments = Group_Comment.objects.filter(group = Group).order_by("-date")
+
     if 'kick_member' in request.POST:
         pk = request.POST['kick_member']
         target_ac = poop_account.objects.get(id = pk)
         remove_user_group(Group,target_ac)
         return redirect("group_poop",Group.id)
     
-    if 'invite_member' in request.POST:
+    elif 'invite_member' in request.POST:
         pk = request.POST['invite_member']
         target_ac = poop_account.objects.get(id = pk)
         Group_Notification.objects.create(type = "group" , sender = Account , receiver = target_ac , group = Group)
         return redirect("group_poop",Group.id)
-
+    
+    elif 'post_comment' in request.POST and len(request.POST['chat_input']) > 0:
+        text = request.POST['chat_input']
+        if len(text) <= 500:
+            Group_Comment.objects.create(author = Account , group = Group , message = text)
+        return redirect("group_poop",Group.id)
+    
+    
+    elif 'remove-comment' in request.POST:
+        comment_id = request.POST['remove-comment']
+        Group_Comment.objects.get(id=comment_id).delete()
+        return redirect("group_poop",Group.id)
+        
     
     context = {
         'account':Account,
-        'group':Group
+        'group':Group,
+        'comments':all_comments
     }
     return render(request,"poop_group.html" , context)
