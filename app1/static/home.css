@@ -332,3 +332,93 @@ padding:5px 0;
 .div-user-re{
     display: flex;
 }
+
+
+/* LEaderboard */
+
+.leaderbaord{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    flex:.8;
+    
+}
+
+.graph_box{
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    height: 350px;
+    justify-content: end;
+    border: 3px solid #fff;
+    align-items: center;
+    background-color: green;
+}
+
+.div_graph{
+    display: flex;
+    align-items: end;
+}
+
+.inside_div{
+    display: flex;
+    width: 100px;
+    border-top: 2px solid #fff;
+    border-right: 2px solid #fff;
+    border-left: 2px solid #fff;
+    justify-content: center;
+}
+
+.first_place{
+    background-color: rgb(232, 55, 36);
+    height: 100%;
+}
+
+.second_place{
+    background-color: rgb(26, 137, 206);
+    height: 80%;
+}
+
+.third_place{
+    background-color: rgb(56, 207, 39);
+    height: 60%;
+}
+
+.player_inf_leaderboard{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+}
+.player_box img{
+    width: 65px;
+    height: 65px;
+}
+
+.player_inf_leaderboard p,h2{
+    margin: 0;
+    text-align: center;
+}
+
+.secundary_graph_box{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    height: 75%;
+    width: 100%;
+}
+
+.player_box{
+    margin-top: 10px;
+}
+
+#crown_first_place{
+    width: 60px;
+    height: 60px;
+}
+
+.sub_conatiner{
+    width: 80%;
+    flex: 1;
+    background-color: red;
+}
