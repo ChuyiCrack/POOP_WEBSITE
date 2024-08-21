@@ -58,6 +58,11 @@ class group_poop(models.Model):
     def num_members(self):
         return self.members.count()
     
+    def players_ordered(self):
+        players = [member for member in self.members.all() if member.global_poops > 0]
+        players = sorted(players , key= lambda x:x.global_poops, reverse=True)
+        return players
+    
     def __str__(self) -> str:
         return f"{self.group_name}({self.num_members()} members)"
     

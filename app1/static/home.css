@@ -352,17 +352,18 @@ padding:5px 0;
     justify-content: end;
     border: 3px solid #fff;
     align-items: center;
-    background-color: green;
+    background-color: #182129;
 }
 
 .div_graph{
     display: flex;
     align-items: end;
+    width: 100px;
 }
 
 .inside_div{
     display: flex;
-    width: 100px;
+    width: 100%;
     border-top: 2px solid #fff;
     border-right: 2px solid #fff;
     border-left: 2px solid #fff;
@@ -377,11 +378,13 @@ padding:5px 0;
 .second_place{
     background-color: rgb(26, 137, 206);
     height: 80%;
+    border-right: 0px solid #000;
 }
 
 .third_place{
     background-color: rgb(56, 207, 39);
     height: 60%;
+    border-left: 0px solid #000;
 }
 
 .player_inf_leaderboard{
@@ -409,7 +412,15 @@ padding:5px 0;
 }
 
 .player_box{
+    display: flex;
+    flex-direction: column;
     margin-top: 10px;
+    align-items: center;
+}
+
+.player_box p{
+    overflow-x: hidden;
+    max-width: 100px;
 }
 
 #crown_first_place{
@@ -420,5 +431,34 @@ padding:5px 0;
 .sub_conatiner{
     width: 80%;
     flex: 1;
-    background-color: red;
+}
+
+.all_members_box{
+    display: flex;
+    flex-direction: column;
+    height: 310px;
+    width: fit-content;  
+}
+.all_members{
+    border: 3px solid #fff;
+    border-radius: 15px;
+    width: 300px;
+    flex: 1;
+    overflow-y: scroll;
+}
+
+#all_player_name{
+    max-width: 195px;
+    overflow-x: hidden;
+}
+
+#title_all_members{
+    margin: 5px 0;
+}
+
+.player_poops{
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 3px solid #fff;
 }

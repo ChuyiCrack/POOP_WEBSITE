@@ -133,42 +133,6 @@ def modify_aacount(request):
 
     return render(request,'modify_account.html',context)
 
-def ranking(request):
-    Account=poop_account.objects.get(owner=request.user)
-    all_users=poop_account.objects.filter(poops_count__gt=0).order_by('-poops_count')
-    if len(all_users)>=3:
-        first=all_users[0]
-        second=all_users[1]
-        third=all_users[2]
-
-    elif len(all_users)==2:
-        first=all_users[0]
-        second=all_users[1]
-        third=None
-
-    elif len(all_users)==1:
-        first=all_users[0]
-        second=None
-        third=None
-
-    else:
-        first=None
-        second=None
-        third=None
-    
-
-    
-    context={
-        'account':Account,
-        'top_users':all_users,
-        'first':first,
-        'second':second,
-        'third':third
-        
-    }
-    return render(request,'ranking.html',context)
-
-
 def adding_friends(request):
     Account = get_object_or_404(poop_account, owner=request.user)
     context = {
@@ -243,11 +207,15 @@ def Group_Popp_View(request,pk):
         comment_id = request.POST['remove-comment']
         Group_Comment.objects.get(id=comment_id).delete()
         return redirect("group_poop",Group.id)
-        
     
+    all_players = Group.players_ordered()
+    ordered_players = [None , None , None]
+    for i in range(len(all_players)):
+        ordered_players[i] = all_players[i]
     context = {
         'account':Account,
         'group':Group,
-        'comments':all_comments
+        'comments':all_comments,
+        'first_place':ordered_players[0],'second_place':ordered_players[1],'third_place':ordered_players[2],
     }
     return render(request,"poop_group.html" , context)
