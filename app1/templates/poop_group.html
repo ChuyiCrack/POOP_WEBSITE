@@ -94,12 +94,26 @@
                             <div class="player_poops">
                                 <p>{{forloop.counter}}°</p>
                                 <p id="all_player_name">{{player}}</p>
-                                <p>{{player.global_poops}} {% if player.global_poops > 1 %} poops {% else %} poop {% endif %}</p>
+                                <p>{{player.group_poops}} {% if player.group_poops > 1 %} poops {% else %} poop {% endif %}</p>
                             </div>
                         {% endfor %}
                     </div>
                 </div>
+                {% if can_button %}
+                    <form class="form_poop" method="post">
+                        {% csrf_token %}
+                        <button class="poop_button" type="submit" name="made_poop">I made a poop</button>
+                        <h5>The button has cooldown of 2 hours</h6>
+                    </form>
+
+                {% else %}
+                    <div class="form_poop">
+                        <p class="poop_button clicked_button">I made a poop</p>
+                        <h5>You pooped <br>{{last_poop_time|timesince}} ago</h6>
+                    </div>
+                {% endif %}
             </div>
+            
         </div>
         <div class="Friends-Box">
             <div class="top_members">

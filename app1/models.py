@@ -7,17 +7,18 @@ from django.db.models import Value,CharField
 
 class poops(models.Model):
     date=models.DateTimeField(default=timezone.now)
-    owner_shit=models.ForeignKey(User,on_delete=models.CASCADE,default=None)
+    owner_shit=models.ForeignKey("poop_account",on_delete=models.CASCADE,default=None)
 
     def __str__(self):
-        return self.owner_shit.username
+        return f"{self.owner_shit.owner.username} at {self.date}"
 
 
 class poop_account(models.Model):
     owner=models.ForeignKey(User,on_delete=models.CASCADE)
     profile_img=models.ImageField(upload_to='./images',blank=True,default='./used_media/default.jpg')
     description=models.TextField(max_length=150,blank=True)
-    global_poops=models.IntegerField(default=0)
+    global_poops=models.PositiveIntegerField(default=0)
+    group_poops = models.PositiveIntegerField(default=0)
     friends = models.ManyToManyField('self',symmetrical=True,blank=True)
     joined_group = models.ForeignKey("group_poop" ,blank=True, null=True , default=None ,on_delete=models.SET_NULL)
     comments = models.ManyToOneRel
@@ -59,7 +60,7 @@ class group_poop(models.Model):
         return self.members.count()
     
     def players_ordered(self):
-        players = [member for member in self.members.all() if member.global_poops > 0]
+        players = [member for member in self.members.all() if member.group_poops > 0]
         players = sorted(players , key= lambda x:x.global_poops, reverse=True)
         return players
     

@@ -4,9 +4,10 @@ from django.contrib.auth.forms import AuthenticationForm
 from .forms import CustomUserCreationForm,Modify_Account_Form
 from .models import poop_account,poops,friend_request,profile_comment,group_poop , Group_Notification, Group_Comment
 from django.utils import timezone
+from datetime import timedelta
 from django.db.models import Q
 from django.http import Http404,HttpResponse
-from .functions import remove_user_group
+from .functions import remove_user_group, made_poop
 
 
 def index(request):
@@ -183,39 +184,55 @@ def Group_Popp_View(request,pk):
         return HttpResponse("<style> body{text-align:center;} </style>"+f"<h2>Group with the id {pk} was not found <br> Try to search with another id</h2> <br> <a href='/'>Go back </a>")
     
     all_comments = Group_Comment.objects.filter(group = Group).order_by("-date")
-
     if 'kick_member' in request.POST:
         pk = request.POST['kick_member']
         target_ac = poop_account.objects.get(id = pk)
         remove_user_group(Group,target_ac)
-        return redirect("group_poop",Group.id)
     
     elif 'invite_member' in request.POST:
         pk = request.POST['invite_member']
         target_ac = poop_account.objects.get(id = pk)
         Group_Notification.objects.create(type = "group" , sender = Account , receiver = target_ac , group = Group)
-        return redirect("group_poop",Group.id)
     
     elif 'post_comment' in request.POST and len(request.POST['chat_input']) > 0:
         text = request.POST['chat_input']
         if len(text) <= 500:
             Group_Comment.objects.create(author = Account , group = Group , message = text)
-        return redirect("group_poop",Group.id)
-    
     
     elif 'remove-comment' in request.POST:
         comment_id = request.POST['remove-comment']
         Group_Comment.objects.get(id=comment_id).delete()
+    
+    elif 'made_poop' in request.POST:
+        poops.objects.create(owner_shit = Account)
+        made_poop(Account)
+    
+    if request.method == "POST":
         return redirect("group_poop",Group.id)
     
     all_players = Group.players_ordered()
     ordered_players = [None , None , None]
     for i in range(len(all_players)):
+        if i > 3:
+            break
         ordered_players[i] = all_players[i]
+    
+    two_hours_ago = timezone.now() - timedelta(hours=2)
+    last_poop = poops.objects.filter(owner_shit = Account ,date__gt=two_hours_ago)
+    if last_poop.exists():
+        can_button= False
+        last_poop_time = last_poop[0].date
+
+    else:
+        can_button = True
+        last_poop_time= None
+    
     context = {
         'account':Account,
         'group':Group,
         'comments':all_comments,
         'first_place':ordered_players[0],'second_place':ordered_players[1],'third_place':ordered_players[2],
+        'can_button':can_button,
+        'last_poop_time':last_poop_time
     }
     return render(request,"poop_group.html" , context)

@@ -3,8 +3,8 @@ from django.shortcuts import render,redirect,get_object_or_404
 
 
 def add_to_group(target_user:poop_account ,target_group:group_poop):
-    if not target_user.group:
-        target_user.group = target_group
+    if not target_user.joined_group:
+        target_user.joined_group = target_group
         target_group.members.add(target_user)
         target_user.save()
         target_group.save()
@@ -16,6 +16,7 @@ def remove_user_group(target_group:group_poop,target_user:poop_account):
     target_group.members.remove(target_user)
     target_group.save()
     target_user.joined_group = None
+    target_user.group_poops = 0
     target_user.save()
     return
 
@@ -25,10 +26,7 @@ def Requests_Navbar(request):
     if 'join_group' in request.POST:
         id = request.POST['join_group']
         instance = Group_Notification.objects.get(id=id)
-        instance.group.members.add(Account)
-        Account.joined_group = instance.group
-        instance.group.save()
-        Account.save()
+        add_to_group(Account ,instance.group)
         instance.delete()
         
 
@@ -50,3 +48,10 @@ def Requests_Navbar(request):
         instance.delete()
     
     return redirect('home')
+
+
+def made_poop(target_user:poop_account):
+    target_user.global_poops+=1
+    target_user.group_poops+=1
+    target_user.save()
+    return

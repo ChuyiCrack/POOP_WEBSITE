@@ -429,8 +429,10 @@ padding:5px 0;
 }
 
 .sub_conatiner{
+    display: flex;
     width: 80%;
     flex: 1;
+    align-items: center;
 }
 
 .all_members_box{
@@ -461,4 +463,36 @@ padding:5px 0;
     display: flex;
     justify-content: space-between;
     border-bottom: 3px solid #fff;
+}
+
+.form_poop{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.form_poop h6,h5{
+    margin: 5px 0 0 0;
+    text-align: center;
+    color: rgba(202, 190, 61, 0.886);
+}
+
+.poop_button{
+    width: fit-content;
+    font-size: 21px;
+    padding: 10px 20px;
+    background-color: #feb415;
+    border: none;
+    border-radius: 5px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.clicked_button{
+    margin-top: 35px;
+    margin-bottom: 0;
+    background-color: #feb41586;
+    color: #000;
 }
