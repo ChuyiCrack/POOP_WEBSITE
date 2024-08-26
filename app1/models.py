@@ -46,9 +46,10 @@ class profile_comment(models.Model):
         return f"Message from {self.author} to {self.recipent}"
     
 class Group_Comment(models.Model):
-    author = models.ForeignKey(poop_account ,on_delete=models.CASCADE , related_name='authro_gc')
+    author = models.ForeignKey(poop_account ,on_delete=models.CASCADE ,blank=True,null=True,  related_name='authro_gc')
     group = models.ForeignKey("group_poop" ,blank=True, null=True , default=None ,on_delete=models.CASCADE)
     message = models.TextField(max_length=500 , blank=False)
+    type_message = models.CharField(max_length=30, default="chat")
     date = models.DateTimeField(default=timezone.now)
 
 class group_poop(models.Model):

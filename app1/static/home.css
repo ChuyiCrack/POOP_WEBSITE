@@ -218,6 +218,32 @@
     justify-content: space-between;
 }
 
+.options_box{
+    display: flex;
+    justify-content: center;
+}
+
+#leave_group{
+    margin-top: 5px;
+    border: 2px solid rgba(158, 13, 13, 0.815);
+    background-color: rgba(214, 42, 42, 0.911);
+    color: #FFF;
+    cursor: pointer;
+    padding: 5px;
+}
+
+#leave_group:hover{
+    background-color: rgba(237, 57, 47, 0.911);
+    box-shadow: 1px 1px 3px red;
+}
+
+#configuration{
+    margin: 7px 5px 0 auto;
+}
+#configuration img{
+    width:20px;
+}
+
 /* Comments Group*/
 
 .Chat-Box{
@@ -331,6 +357,18 @@ padding:5px 0;
 
 .div-user-re{
     display: flex;
+}
+
+.global_comment{
+    width: 100%;
+}
+
+.global_comment p{
+    font-size: 13px;
+    margin: 0;
+    width: 100%;
+    padding: 5px 0;
+    text-align: center;
 }
 
 
