@@ -59,7 +59,7 @@
 
 .third_container{
     width: 100%;
-    margin: 0 20px;
+    margin-left:5px;
 }
 
 #coment_button .message_box img{
@@ -218,5 +218,39 @@
     display: flex;
     flex-direction: column;
     width: 100%;
+}
+
+.AllInfo{
+    display:flex;
+    padding:0 100px;
+    flex:1;
+    height:255px;
+    margin-top:10px;
+    margin-right:10px;
+    background-color:red;
+    justify-content:space-between;
+}
+
+
+.infoBox{
+    border:2px solid #fff;
+    border-radius: 15px;
+    width:170px;
+    height:110px;
+}
+
+.layer1,.layer2{
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    height:100%;
+}
+
+.historyPoops{
+    background-color:blue;
+    width:170px;
+    height:100%;
+    border:2px solid #fff;
+    border-radius: 15px;
 }
 

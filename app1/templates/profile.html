@@ -1,10 +1,17 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile</title>
-    {% load static %}
+    <title>
+        {% if profile.owner == request.user %}
+            Your Profile
+
+        {% else %}
+            {{profile.owner}}
+        {% endif %}
+    </title>
     <link rel="stylesheet" href="{% static 'profile.css' %}">
 </head>
 <body>
@@ -13,10 +20,10 @@
         <div class="top_chart">
             <p id="username">{{profile}}'s Profile</p>
             {% if profile.owner == request.user %}
-            <a class="a_settings" href="">
+            <a class="a_settings" href="{% url 'modify' %}">
                 <div class="settings_box">
                     <img src="../../media/used_media/gear(1).png" alt="">
-                    <p class="settings" href="">Profile Settings</p>
+                    <p class="settings">Profile Settings</p>
                 </div>
             </a>
             {% endif %}
@@ -36,7 +43,7 @@
                             <img src="../../media/used_media/added.png" alt="">
                         </div>
                     {% elif profile in account.friends.all %}
-                        <form class="add added" title="remove friend" , method="post">
+                        <form class="add added" title="remove friend" method="post">
                             {% csrf_token %}
                             <button type="submit" name="remove_friend">
                                 <img src="../../media/used_media/added.png" alt="">
@@ -60,8 +67,28 @@
                     
                 </div>
             </div>
-    
             <div class="third_container">
+                <div class="AllInfo">
+                        <div class="layer1">
+                                <div class="infoBox">
+                                    <p>Total Poops</p>
+                                </div>
+                                <div class="infoBox">
+                                    <p>Group</p>
+                                </div>
+                        </div>
+                        <div class="layer2">
+                                <div class="infoBox">
+                                    <p>Poop Streak</p>
+                                </div>
+                                <div class="infoBox">
+                                    <p>Joined</p>
+                                </div>
+                        </div>
+                        <div class="historyPoops">
+
+                        </div>
+                </div>
                 <div class="commnet">
                     <p>Comment</p>
                     <form method="post" class="input_container">
