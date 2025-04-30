@@ -20,7 +20,7 @@ class poop_account(models.Model):
     global_poops=models.PositiveIntegerField(default=0)
     group_poops = models.PositiveIntegerField(default=0)
     friends = models.ManyToManyField('self',symmetrical=True,blank=True)
-    joined_group = models.ForeignKey("group_poop" ,blank=True, null=True , default=None ,on_delete=models.SET_NULL)
+    joined_group = models.ForeignKey("group_poop" ,blank=True, null=True , default=None ,on_delete=models.SET_NULL , related_name='poop_accounts')
     comments = models.ManyToOneRel
 
     def check_gr_sent(self):
@@ -55,13 +55,15 @@ class Group_Comment(models.Model):
 class group_poop(models.Model):
     owner = models.ForeignKey(poop_account , on_delete=models.CASCADE , blank=False , related_name="owner_group")
     group_name = models.CharField(max_length=50 , unique=True)
-    members = models.ManyToManyField(poop_account,max_length=16 ,blank=True , related_name="members")
+
+    def allMembers(self):
+        return self.poop_accounts.all()
 
     def num_members(self):
-        return self.members.count()
-    
+        return self.allMembers().count()
+
     def players_ordered(self):
-        players = [member for member in self.members.all() if member.group_poops > 0]
+        players = [member for member in self.allMembers() if member.group_poops > 0]
         return sorted(players , key= lambda x:x.global_poops, reverse=True)
 
     def __str__(self) -> str:

@@ -183,7 +183,7 @@ def Group_Popp_View(request,pk):
     except Http404:
         return HttpResponse("<style> body{text-align:center;} </style>"+f"<h2>Group with the id {pk} was not found <br> Try to search with another id</h2> <br> <a href='/'>Go back </a>")
     
-    if Account not in Group.members.all():
+    if Account not in Group.allMembers():
         return redirect("home")
     all_comments = Group_Comment.objects.filter(group = Group).order_by("-date")
     if 'kick_member' in request.POST:

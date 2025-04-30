@@ -135,17 +135,17 @@
                         </div>
                         <div class="drop_down_menu">
                             <p style="margin: 0;">Invite Friends</p>
-                            {% for f in account.friends.all %}
-                                {% if f not in group.members.all %}
+                            {% for friend in account.friends.all %}
+                                {% if friend not in group.allMembers %}
                                 <div class="friend-container invite_friends">
-                                    <img class="image-friend" src="{{f.profile_img.url}}" alt="">
+                                    <img class="image-friend" src="{{friend.profile_img.url}}" alt="">
                                     <div class="namer-tag">
-                                        <p>{{f}}</p>
+                                        <p>{{friend}}</p>
                                     </div>
-                                    {% if not f in account.check_gr_sent %}
+                                    {% if not friend in account.check_gr_sent %}
                                         <form method="post">
                                             {% csrf_token %}
-                                            <button type="submit" value="{{f.id}}" name="invite_member">Invite</button>
+                                            <button type="submit" value="{{friend.id}}" name="invite_member">Invite</button>
                                         </form>
                                     {% else %}
                                         <p>Invited</p>
@@ -157,7 +157,7 @@
                     </div>
                 </div>
                     <div class="show-friends">
-                        {% for player in group.members.all %}
+                        {% for player in group.allMembers %}
                             <a class="url-friend" href="{% url 'profile' player.id %}">
                                 <div class="friend-container group_page {% if player == account %} owner-group {% endif %}">
                                     <img class="image-friend" src="{{player.profile_img.url}}" alt="">
